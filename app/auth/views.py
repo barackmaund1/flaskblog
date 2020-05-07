@@ -1,3 +1,12 @@
+from flask import render_template
+from . import auth
+from flask import render_template,redirect,url_for, flash,request
+from flask_login import login_user,logout_user,login_required
+from ..models import User
+from .forms import LoginForm,RegistrationForm
+from flask_login import current_user
+from .. import db
+
 @app.route('/signup', methods=['POST','GET'])
 def signup():
     form = SignUpForm(request.form)
@@ -30,3 +39,9 @@ def login():
             return redirect(next or url_for('admin'))
         flash('Invalid password','danger')
     return render_template('admin/login.html', form=form)
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('you are logout','success')
+    return redirect(url_for('login'))    
