@@ -17,6 +17,7 @@ class User(db.Model,UserMixin):
     pass_secure = db.Column(db.String(200),  nullable=False)
     profile = db.Column(db.String(180),  default="profile.jpg")
     post=db.relationship('Post',backref='user',lazy='dynamic')
+
     @property
     def password(self):
         raise AttributeError('You cannot read the password attribute')
@@ -54,7 +55,7 @@ class Post(db.Model):
     def generate_slug(target, value, oldvalue, initiator):
         if value and (not target.slug or value != oldvalue):
             target.slug = slugify(value)
-db.event.listen(Post.title, 'set',Post.generate_slug, retval=False)
+        db.event.listen(Post.title, 'set',Post.generate_slug, retval=False)
 
     def save_post(self):
         db.session.add(self)
@@ -71,7 +72,7 @@ db.event.listen(Post.title, 'set',Post.generate_slug, retval=False)
 
 
 class Comments(db.Model):
-     __tablename__='comments'
+    __tablename__='comments'
      
     id = db.Column(db.Integer, primary_key=True)
     comment= db.Column(db.Text, nullable=False)

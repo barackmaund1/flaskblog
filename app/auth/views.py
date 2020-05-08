@@ -7,7 +7,7 @@ from .forms import LoginForm,RegistrationForm
 from flask_login import current_user
 from .. import db
 
-@app.route('/signup', methods=['POST','GET'])
+@auth.route('/signup', methods=['POST','GET'])
 def signup():
     form = SignUpForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -21,7 +21,7 @@ def signup():
 
 
 
-@app.route('/login', methods=['POST','GET'])
+@auth.route('/login', methods=['POST','GET'])
 def login():
     if current_user.is_authenticated:
         next = request.args.get('next')
@@ -39,7 +39,7 @@ def login():
             return redirect(next or url_for('admin'))
         flash('Invalid password','danger')
     return render_template('admin/login.html', form=form)
-@app.route('/logout')
+@auth.route('/logout')
 @login_required
 def logout():
     logout_user()

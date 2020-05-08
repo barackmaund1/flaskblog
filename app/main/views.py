@@ -1,19 +1,22 @@
 from flask import render_template,url_for,request,flash,redirect,abort
 from app.main  import main
-from app.models import User,Blog,Comment,Subscriber
+from app.models import User,Post,Comments,Subscriber
 from .. import db
-from app.requests import get_quotes
-from .forms import UpdateProf,CreateBlog
+# from app.requests import get_quotes
+from .forms import UpdateProf,PostForm
 from flask_login import login_required,current_user
 import secrets
 import os
 from PIL import Image
+from flask_login import login_required,login_user, current_user, logout_user
 
 
 @main.route('/')
 def index():
-    posts = Post.query.order_by(Post.id.desc()).all()
-    return render_template('post/index.html', posts=posts)
+    quotes = get_quotes()
+    page = request.args.get('page',1, type = int )
+    blogs = Blog.query.order_by(Blog.posted.desc()).paginate(page = page, per_page = 4)
+    return render_template('post.html', posts=posts)
 
 @main.route('/addpost',methods=['POST','GET'])
 @login_required
@@ -27,7 +30,7 @@ def addpost():
         flash('Your post has been added ','success')
         return redirect(url_for('admin'))
     return render_template('admin/addpost.html', form=form) 
-@app.route('/update/<int:id>',methods=['POST','GET'])
+@main.route('/update/<int:id>',methods=['POST','GET'])
 @login_required
 def update(id):
     form = PostForm(request.form)
@@ -80,3 +83,8 @@ def profile():
         form.bio.data = current_user.bio
     profile_pic_path = url_for('static',filename='photos' + current_user.profile_pic_path)    
     return render_template('profile/profile.html',form=form)     
+@main.route('/post/<id>')
+def blog(id):
+    comments = Comments.query.filter_by(post_id=id).all()
+    post = Post.query.get(id)
+    return render_template('post.html',post=post,comments=comments)    
