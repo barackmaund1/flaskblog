@@ -29,6 +29,8 @@ class User(db.Model,UserMixin):
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
     
+        
+    
     def __repr__(self):
         return f'User{self.username},{self.email}'  
 
@@ -54,6 +56,19 @@ class Post(db.Model):
             target.slug = slugify(value)
 db.event.listen(Post.title, 'set',Post.generate_slug, retval=False)
 
+    def save_post(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_post(self):
+        db.session.add(self)
+        db.session.commit()
+
+    # @classmethod
+    def get_post(self,id):
+        post = Post.query.filter_by(id=id).first()
+        return post
+
 
 class Comments(db.Model):
      __tablename__='comments'
@@ -62,4 +77,36 @@ class Comments(db.Model):
     comment= db.Column(db.Text, nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     post = db.relationship('Post', backref=db.backref('posts',lazy=True, passive_deletes=True))
-    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)          
+    date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
+    user_id= db.Column(db.Integer,db.ForeignKey("users.id"))  
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_commit(self):
+        db.session.add(self)
+        db.session.commit()
+
+    # @classmethod
+    def get_comment(self,id):
+        comment = Comment.query.all(id=id)
+        return comment
+
+    def __repr__(self):
+        return f'Comment {self.comment}'   
+
+class Subscriber(db.Model):
+    __tablename__='subscribers'
+
+    id=db.Column(db.Integer,primary_key=True)
+    email = db.Column(db.String(255),unique=True,index=True)
+
+    def save_subscriber(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return f'Subscriber {self.email}'
+
+
