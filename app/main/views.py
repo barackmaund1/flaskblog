@@ -67,7 +67,7 @@ def save_pic(form_picture):
 def profile():
     form = UpdateProf()
     if form.validate_on_submit():
-        if form.profile_pic.data:
+        if form.image_file.data:
             picture_file= save_pic(form.image_file.data)
             current_user.profile_pic_path = picture_file
         current_user.username = form.username.data

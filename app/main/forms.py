@@ -11,8 +11,8 @@ class PostForm(Form):
     content = TextAreaField('Content', [validators.DataRequired()])
     photo = FileField()
 class UpdateProf(FlaskForm):
-    username =StringField('Enter You Name',validators =[Required()])
-    email =StringField('Enter You Email',validators =[Required(),Email()])
+    username =StringField('Enter Your Name',validators =[Required()])
+    email =StringField('Enter Your Email',validators =[Required(),Email()])
     bio =TextAreaField('Write a brief about yourself',validators =[Required()])
     image_file= FileField('profile picture',validators =[FileAllowed(['jpg','png'])])
     submit = SubmitField('Update')
