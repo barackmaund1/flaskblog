@@ -6,29 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    
     {% if title %}
     <title>{{title}}</title>
     {% else %}
     <title>flaskblog</title>
     {% endif %}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.css')}}">
+    {% block styles %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/font-awesome.min.css')}}">
-
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/responsive.css')}}">
+    {% endblock %}
   </head>
   <body>
     
     {% block navbar %}
-    {% include "navbar.html" %}
+      {% include "navbar.html" %}
     {% endblock %}
     {% block content %}
-
-   
+       
     {% endblock content %}
-
-    
+    {%block script%}
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -49,5 +49,6 @@
     <script src="{{url_for('static', filename='js/jquery-3.4.1.slim.min.js')}}" ></script>
     <script src="{{url_for('static', filename='js/popper.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+  {%endblock%}
   </body>
 </html>

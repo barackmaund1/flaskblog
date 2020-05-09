@@ -14,6 +14,6 @@ class UpdateProf(FlaskForm):
     username =StringField('Enter You Name',validators =[Required()])
     email =StringField('Enter You Email',validators =[Required(),Email()])
     bio =TextAreaField('Write a brief about yourself',validators =[Required()])
-    profile_pic = FileField('profile picture',validators =[FileAllowed(['jpg','png'])])
+    image_file= FileField('profile picture',validators =[FileAllowed(['jpg','png'])])
     submit = SubmitField('Update')
     

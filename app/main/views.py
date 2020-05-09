@@ -1,8 +1,7 @@
 from flask import render_template,url_for,request,flash,redirect,abort
 from app.main  import main
 from app.models import User,Post,Comments,Subscriber
-from .. import db
-# from app.requests import get_quotes
+from .. import db,photos
 from .forms import UpdateProf,PostForm
 from flask_login import login_required,current_user
 import secrets
@@ -13,10 +12,10 @@ from flask_login import login_required,login_user, current_user, logout_user
 
 @main.route('/')
 def index():
-    quotes = get_quotes()
+    
     page = request.args.get('page',1, type = int )
-    blogs = Blog.query.order_by(Blog.posted.desc()).paginate(page = page, per_page = 4)
-    return render_template('post.html', posts=posts)
+    posts = Post.query.order_by(Post.date_pub.desc()).paginate(page=page, per_page=5)
+    return render_template('index.html', posts=posts)
 
 @main.route('/addpost',methods=['POST','GET'])
 @login_required
@@ -69,7 +68,7 @@ def profile():
     form = UpdateProf()
     if form.validate_on_submit():
         if form.profile_pic.data:
-            picture_file= save_pic(form.profile_pic.data)
+            picture_file= save_pic(form.image_file.data)
             current_user.profile_pic_path = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
@@ -81,10 +80,10 @@ def profile():
         form.username.data = current_user.username
         form.email.data = current_user.email
         form.bio.data = current_user.bio
-    profile_pic_path = url_for('static',filename='photos' + current_user.profile_pic_path)    
-    return render_template('profile/profile.html',form=form)     
+    image_file = url_for('static', filename='photos/' + current_user.image_file)   
+    return render_template('profile/profile.html',image_file=image_file,title='Account',form=form)     
 @main.route('/post/<id>')
-def blog(id):
+def comment(id):
     comments = Comments.query.filter_by(post_id=id).all()
     post = Post.query.get(id)
     return render_template('post.html',post=post,comments=comments)    
