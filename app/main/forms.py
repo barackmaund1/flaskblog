@@ -9,7 +9,7 @@ from ..models import User
 class PostForm(Form):
     title = StringField('Title',[validators.DataRequired()])
     content = TextAreaField('Content', [validators.DataRequired()])
-    photo = FileField()
+    submit = SubmitField('Update')
 class UpdateProf(FlaskForm):
     username =StringField('Enter Your Name',validators =[Required()])
     email =StringField('Enter Your Email',validators =[Required(),Email()])

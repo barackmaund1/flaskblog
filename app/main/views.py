@@ -17,18 +17,48 @@ def index():
     posts = Post.query.order_by(Post.date_pub.desc()).paginate(page=page, per_page=5)
     return render_template('index.html', posts=posts)
 
-@main.route('/addpost',methods=['POST','GET'])
+@main.route('/post/new',methods=['POST','GET'])
 @login_required
-def addpost():
+def new_post():
     form = PostForm(request.form)
     if request.method =="POST" and form.validate():
-        photo = save_pic(request.files.get('photo'))
-        post = Post(title=form.title.data, body=form.content.data,category=request.form.get('category'),image=photo,author=current_user)
+        post = Post(title=form.title.data, content=form.content.data,,author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been added ','success')
-        return redirect(url_for('admin'))
-    return render_template('admin/addpost.html', form=form) 
+        return redirect(url_for('index'))
+    return render_template('admin/addpost.html',title='New Post',legend='New Post', form=form) 
+
+@app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Your post has been updated!', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('create_post.html', title='Update Post',
+                           form=form, legend='Update Post')
+
+
+@app.route("/post/<int:post_id>/delete", methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('main.index'))
 @main.route('/update/<int:id>',methods=['POST','GET'])
 @login_required
 def update(id):

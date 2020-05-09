@@ -1,5 +1,5 @@
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark navbarbg">
-    <a class="navbar-brand" href="{{url_for('main.index')}}"><strong>D-Blog</strong> </a>
+    <a class="navbar-brand" href="{{url_for('main.index')}}"><strong>Welcome to trending blog</strong> </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -8,19 +8,21 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{{url_for('main.index')}}">All Blogs</a>
                 </li>
-
             </ul>
         <ul class="navbar-nav ml-auto">
             {% if current_user.is_authenticated %}
 
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" style= 'margin-right:30px' data-toggle="dropdown"
+              <a class="nav-link dropdown-toggle" style= 'margin-right:30px' data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-user"></i>&nbsp;<strong>{{current_user.username}}</strong> </a>
             
               <a class="dropdown-item" href="{{url_for('main.profile',name=current_user.username)}}"><i class="far fa-user"></i>&nbsp; My account</a>
               <a class="dropdown-item" href="{{url_for('auth.logout')}}"><i class="fas fa-sign-out-alt"></i>&nbsp; Log out</a>
             
+            </li>
+            <li class="nav-item">
+                <a  class="nav-link mr-1" href="{{url_for('main.new_post')}}"><i class="fas fa-post-plus"></i></i>&nbsp; <strong>Create post</strong></a>
             </li>
             {% else %}
               <li class="nav-item">
