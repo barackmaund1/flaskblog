@@ -10,25 +10,26 @@
                     </ol>
                     <div class="carousel-inner">
                         <i class="fas fa-user"></i>&nbsp;<strong>{{current_user.username}}</strong> </a>
-                        {% for post in posts %}
+                        {% for post in posts.items %}
             
-                        {% if loop.index == 1 %}
+                        {% if loop.index == 2 %}
                         <div class="carousel-item active">
                             {% else %}
                         <div class="carousel-item">
                                 {% endif %}
-                              
-                             
-                                <div class="banner_content text-center" style="position:absolute; right:25%; top: 50%;">
-                                        <div class="date">
-                                            <a href="#">posts</a>
-                                            <a href="#"><i class="fa fa-calendar" aria-hidden="true"></i>{{post.date_pub.strftime('%B %Y %d')}}</a>
-                                            <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i>05</a>
-                                        </div>
-                                        <h4><a href="{{url_for('news', slug=post.slug)}}"  class="text-white" style="text-shadow:5px 5px 10px black;">{{post.title}}</a> </h4>
-                                        <p style="text-shadow:5px 5px 10px black;">{{post.body| truncate(150, True)}}</p>
+                                <article class="media content-section">
+                                    <img class="rounded-circle article-img" src="{{ url_for('static', filename='photos/' + post.author.image_file) }}"height='3%' width="5%">
+                                    <div class="media-body">
+                                      <div class="article-metadata">
+                                        <a class="mr-2" href="{{ url_for('main.update_post',post_id=post.id, username=post.author.username) }}">{{ post.author.username }}</a>
+                                        <small class="text-muted">{{ post.date_pub.strftime('%Y-%m-%d') }}</small>
+                                      </div>
+                                      <h2><a class="article-title" href="{{ url_for('main.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+                                      <p class="article-content">{{ post.content }}</p>
                                     </div>
-                            </div>
+                                  </article>
+                             
+                        </div>
                            
                         </div>
                         {% endfor %}

@@ -20,16 +20,20 @@ def index():
 @main.route('/post/new',methods=['POST','GET'])
 @login_required
 def new_post():
-    form = PostForm(request.form)
-    if request.method =="POST" and form.validate():
-        post = Post(title=form.title.data, content=form.content.data,,author=current_user)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data,author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been added ','success')
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     return render_template('admin/addpost.html',title='New Post',legend='New Post', form=form) 
 
-@app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
+@main.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)
+@main.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -41,15 +45,15 @@ def update_post(post_id):
         post.content = form.content.data
         db.session.commit()
         flash('Your post has been updated!', 'success')
-        return redirect(url_for('post', post_id=post.id))
+        return redirect(url_for('main.post', post_id=post.id))
     elif request.method == 'GET':
         form.title.data = post.title
         form.content.data = post.content
-    return render_template('create_post.html', title='Update Post',
+    return render_template('admin/addpost.html', post='post',
                            form=form, legend='Update Post')
 
 
-@app.route("/post/<int:post_id>/delete", methods=['POST'])
+@main.route("/post/<int:post_id>/delete", methods=['POST'])
 @login_required
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -58,28 +62,7 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     flash('Your post has been deleted!', 'success')
-    return redirect(url_for('main.index'))
-@main.route('/update/<int:id>',methods=['POST','GET'])
-@login_required
-def update(id):
-    form = PostForm(request.form)
-    post = Post.query.get_or_404(id)
-    form.title.data = post.title 
-    form.content.data = post.body
-    if request.method=='POST' and form.validate():
-        if request.files.get('photo'):     
-            try:
-                os.unlink(os.path.join(current_app.root_path, 'static/images/'+ post.image))
-                post.image = save_pic(request.files.get('photo'))
-            except:
-                post.image = save_pic(request.files.get('photo'))
-        post.title = form.title.data
-        post.body = form.content.data
-        post.category = request.form.get('category')
-        flash('Post has been updated', 'success')
-        db.session.commit()
-        return redirect(url_for('admin'))
-    return render_template('admin/addpost.html', form=form, post=post)       
+    return redirect(url_for('main.index'))      
 
 def save_pic(form_picture):
     random_hex = secrets.token_hex(8)

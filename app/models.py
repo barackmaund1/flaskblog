@@ -40,9 +40,7 @@ class Post(db.Model):
     __tablename__='posts'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), unique=True, nullable=False)
-    slug = db.Column(db.String(200), unique=True, nullable=False)
-    body = db.Column(db.Text, nullable=False)
-    image = db.Column(db.String(150), nullable=False, default='no-image.jpg')
+    content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     author = db.relationship('User', backref=db.backref('posts',lazy=True, passive_deletes=True))
     views = db.Column(db.Integer,default=0)
@@ -52,11 +50,6 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post %r' % self.title
 
-    @staticmethod
-    def generate_slug(target, value, oldvalue, initiator):
-        if value and (not target.slug or value != oldvalue):
-            target.slug = slugify(value)
-        db.event.listen(Post.title, 'set',Post.generate_slug, retval=False)
 
     def save_post(self):
         db.session.add(self)
@@ -112,3 +105,4 @@ class Subscriber(db.Model):
         return f'Subscriber {self.email}'
 
 
+ 

@@ -2,11 +2,11 @@ from wtforms import Form, StringField,FileField,  validators, TextAreaField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from flask_wtf import FlaskForm 
 from wtforms import StringField,TextAreaField,SubmitField,ValidationError
-from wtforms.validators import Email,Required
+from wtforms.validators import Email, DataRequired,Email, EqualTo, ValidationError,Required
 from flask_login import current_user
 from ..models import User
 
-class PostForm(Form):
+class PostForm(FlaskForm):
     title = StringField('Title',[validators.DataRequired()])
     content = TextAreaField('Content', [validators.DataRequired()])
     submit = SubmitField('Update')
