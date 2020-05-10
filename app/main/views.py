@@ -2,7 +2,7 @@ from flask import render_template,url_for,request,flash,redirect,abort
 from app.main  import main
 from app.models import User,Post,Comments,Subscriber
 from .. import db,photos
-from .forms import UpdateProf,PostForm
+from .forms import UpdateProf,PostForm,Comment
 from flask_login import login_required,current_user
 import secrets
 import os
@@ -14,7 +14,7 @@ from flask_login import login_required,login_user, current_user, logout_user
 def index():
     
     page = request.args.get('page',1, type = int )
-    posts = Post.query.order_by(Post.date_pub.desc()).paginate(page=page, per_page=5)
+    posts = Post.query.order_by(Post.date_pub.desc()).paginate(page=page, per_page=4)
     return render_template('index.html', posts=posts)
 
 @main.route('/post/new',methods=['POST','GET'])
@@ -96,15 +96,19 @@ def profile():
         form.bio.data = current_user.bio
     image_file = url_for('static', filename='photos/' + current_user.image_file)   
     return render_template('profile/profile.html',image_file=image_file,title='Account',form=form)     
-@main.route('/comment/<post_id>',methods=['GET','POST'])
 
-def comment(post_id):
-    blog = Blog.query.get(post_id)
-    comment = request.form.get('newcomment')
-    new_comment = Comment(comment = comment, user_id = current_user._get_current_object().id, post_id=post_id)
-    new_comment.save_comment()
-    return redirect(url_for('main.blog',id= post.id))
- 
+@main.route('/add_comment/<int:post_id>', methods = ['GET', 'POST'])
+@login_required
+def add_comment(post_id):
+    form = Comment()
+    if form.validate_on_submit():
+        comment = Comments(post_id = post_id, comment=form.comment.data,
+                      )
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment was added!', 'success')
+        return redirect(url_for('main.post', post_id = post_id))
+    return render_template('user/comments.html', form=form)
 @main.route("/post/<int:comment_id>/delete", methods=['POST'])
 @login_required
 def delete_comment(comment_id):

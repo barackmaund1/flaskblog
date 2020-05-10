@@ -18,6 +18,6 @@ class UpdateProf(FlaskForm):
     submit = SubmitField('Update')
 class Comment(FlaskForm) :
     comment=StringField('Enter your comment',validators =[Required()])
-    
+    submit = SubmitField('Update')
 
     
