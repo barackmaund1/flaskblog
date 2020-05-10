@@ -8,31 +8,31 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{{url_for('main.index')}}">All Blogs</a>
                 </li>
+            
             </ul>
-        <ul class="navbar-nav ml-auto">
-            {% if current_user.is_authenticated %}
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" style= 'margin-right:30px' data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-user"></i>&nbsp;<strong>{{current_user.username}}</strong> </a>
-            
-              <a class="dropdown-item" href="{{url_for('main.profile',name=current_user.username)}}"><i class="far fa-user"></i>&nbsp; My account</a>
-              <a class="dropdown-item" href="{{url_for('auth.logout')}}"><i class="fas fa-sign-out-alt"></i>&nbsp; Log out</a>
-            
-            </li>
-            <li class="nav-item">
-                <a  class="nav-link mr-1" href="{{url_for('main.new_post')}}"><i class="fas fa-post-plus"></i></i>&nbsp; <strong>Create post</strong></a>
-            </li>
-            {% else %}
-              <li class="nav-item">
-                  <a  class="nav-link mr-1" href="{{url_for('auth.signup')}}"><i class="fas fa-user-plus"></i></i>&nbsp; <strong>Sign Up</strong></a>
-              </li>
-              <li class="nav-item">
-                  <a  class="nav-link mr-5" href="{{url_for('auth.login')}}" ><i class="fas fa-sign-in-alt "></i>&nbsp; <strong>Log In</strong></a>
-              </li>
-            {%endif%}
-
-        </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a  class="nav-link mr-1" href="{{url_for('main.new_post')}}"><i class="fas fa-post-plus"></i></i>&nbsp; <strong>Create post</strong></a>
+                </li>
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" style= 'margin-right:30px' data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user"></i>&nbsp;<strong>{{current_user.username}}</strong> </a>
+                 <div class="dropdown-content" > 
+                  <a class="dropdown-item" href="{{url_for('main.profile',name=current_user.username)}}"><i class="fas fa-user"></i>&nbsp; My account</a>
+                  <a class="dropdown-item" href="{{url_for('auth.logout')}}"><i class="fas fa-sign-out-alt"></i>&nbsp; Log out</a>
+                </div> 
+                </li>
+                {% else %}
+                  <li class="nav-item">
+                      <a  class="nav-link mr-1" href="{{url_for('auth.signup')}}"><i class="fas fa-user-plus"></i></i>&nbsp; <strong>Sign Up</strong></a>
+                  </li>
+                  <li class="nav-item">
+                      <a  class="nav-link mr-5" href="{{url_for('auth.login')}}" ><i class="fas fa-sign-in-alt "></i>&nbsp; <strong>Log In</strong></a>
+                  </li>
+                {%endif%}
+    
+            </ul>
     </div>
 </nav>

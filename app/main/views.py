@@ -122,10 +122,11 @@ def delete_comment(comment_id):
     db.session.commit()
     flash('Your comment has been deleted!', 'success')
     return redirect(url_for('main.index'))      
-@main.route('/subscribe',methods = ['POST','GET'])
-def subscribe():
+@main.route('/subscribe/user_id',methods = ['POST','GET'])
+@login_required
+def subscribe(user_id):
     email = request.form.get('subscriber')
-    new_subscriber = Subscriber(email = email)
+    new_subscriber = Subscriber(email = email,user_id=user_id)
     new_subscriber.save_subscriber()
     mail_message("Subscribed to Best-Blog","email/welcome_subscriber",new_subscriber.email,new_subscriber=new_subscriber)
     flash('Sucessfuly subscribed')

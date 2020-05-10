@@ -1,7 +1,69 @@
 .navbarbg{
-    background-color: black;
+    background-color: rgb(243, 197, 197);
     
 }
 .container{
     background-color: rgb(220, 220, 245);
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color:rgb(20, 18, 15);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  .dropdown:hover .dropbtn {background-color: #3e8e41;}
+/* .footer{
+    position: absolute;
+    bottom:0 ;
+    left:10% ;
+} */
+body{
+    background-color: blueviolet;
+}
+.home_banner_area{
+    background-color: brown;
+    background-color: white;
+    opacity: 0.9;
+    right: 0;
+    text-align: center;
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    left: auto;
+    color: rgb(34, 29, 29);
+    padding: 2rem;
+    bottom: 0;
+}
+.quote{
+    background-color: brown;
+}
+/* .media content-section{
+    text-align: center;
+    justify-content: center;
+} */
+.article-img{
+    justify-content: center;
+    text-align: center;
+}
+.page{
+    justify-content: center;
 }

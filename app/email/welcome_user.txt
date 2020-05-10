@@ -1,4 +1,0 @@
-Hello {{user.username}}
-Welcome to best blog
-We have just seen you have signed up for our application and want to welcome you to the family.
-please don't foget to comment.Thank you.
