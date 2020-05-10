@@ -32,7 +32,8 @@ def new_post():
 @main.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
+    comments = Comments.query.filter_by(post_id=post_id).all()
+    return render_template('post.html', title=post.title,comments=comments, post=post)
 @main.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
@@ -95,8 +96,22 @@ def profile():
         form.bio.data = current_user.bio
     image_file = url_for('static', filename='photos/' + current_user.image_file)   
     return render_template('profile/profile.html',image_file=image_file,title='Account',form=form)     
-@main.route('/post/<id>')
-def comment(id):
-    comments = Comments.query.filter_by(post_id=id).all()
-    post = Post.query.get(id)
-    return render_template('post.html',post=post,comments=comments)    
+@main.route('/comment/<post_id>',methods=['GET','POST'])
+
+def comment(post_id):
+    blog = Blog.query.get(post_id)
+    comment = request.form.get('newcomment')
+    new_comment = Comment(comment = comment, user_id = current_user._get_current_object().id, post_id=post_id)
+    new_comment.save_comment()
+    return redirect(url_for('main.blog',id= post.id))
+ 
+@main.route("/post/<int:comment_id>/delete", methods=['POST'])
+@login_required
+def delete_comment(comment_id):
+    comment = Comments.query.get_or_404(comment_id)
+    if comment.author != current_user:
+        abort(403)
+    db.session.delete(comment)
+    db.session.commit()
+    flash('Your comment has been deleted!', 'success')
+    return redirect(url_for('main.index'))      

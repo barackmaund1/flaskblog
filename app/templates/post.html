@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+{% import 'bootstrap/wtf.html' as wtf%}
 <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ url_for('static', filename='photos/' + post.author.image_file) }}">
+    <img class="rounded-circle article-img" src="{{ url_for('static', filename='photos/' + post.author.image_file) }}" height="2%" width="8%">
     <div class="media-body">
       <div class="article-metadata">
         <a class="mr-2" href="{{ url_for('main.new_post', username=post.author.username) }}">{{ post.author.username }}</a>
@@ -17,23 +18,57 @@
       <p class="article-content">{{ post.content }}</p>
     </div>
   </article>
-  <!-- Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="POST">
-            <input class="btn btn-danger" type="submit" value="Delete">
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+
+            <h4>Comments</h4>
+            {% for comment in comments%}
+            <div class="card mb-2">
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                <p>{{comment.description}}</p>
+                <footer class="blockquote-footer">{{comment.author.username}}</footer>
+                <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                </blockquote>
+            </div>
+            </div>
+            {%endfor%}
+        
+
+            <div class="modal fade" id="modalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-notify modal-info" role="document">
+                    <div class="modal-content text-center">
+                    <div class="modal-header d-flex justify-content-center"  style="background-color: rgb(62,79,98);">
+                        <p class="heading">Leave A comment Here</p>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form" action="{{url_for('main.comment',post_id = post.id)}}" method="POST">
+                            <div class="form-group green-border-focus">
+                                <label></label>
+                                <textarea class="form-control" placeholder="Type your comment..." rows="2" name ="newcomment" required></textarea>
+                            </div>
+                            <div class="modal-footer flex-center">
+                                <button class="btn btn-sm btn-outline-success">Comment</button>
+                                <a type="button" class="btn btn-outline-danger btn-sm " data-dismiss="modal">Exit</a>
+                            </div>
+                        </form>
+                    </div>
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
 {% endblock content %}
