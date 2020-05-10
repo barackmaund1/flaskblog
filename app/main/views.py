@@ -6,16 +6,18 @@ from .forms import UpdateProf,PostForm,Comment
 from flask_login import login_required,current_user
 import secrets
 import os
+
+from app.request import get_quotes
 from PIL import Image
 from flask_login import login_required,login_user, current_user, logout_user
 
 
 @main.route('/')
 def index():
-    
+    quote=get_quotes()
     page = request.args.get('page',1, type = int )
     posts = Post.query.order_by(Post.date_pub.desc()).paginate(page=page, per_page=4)
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', posts=posts, quotes=quote)
 
 @main.route('/post/new',methods=['POST','GET'])
 @login_required
