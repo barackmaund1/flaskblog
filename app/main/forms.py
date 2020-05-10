@@ -19,5 +19,7 @@ class UpdateProf(FlaskForm):
 class Comment(FlaskForm) :
     comment=StringField('Enter your comment',validators =[Required()])
     submit = SubmitField('Update')
-
+class Subscribe(FlaskForm):
+    email=StringField('Enter your email',validators =[Required()])
+    submit = SubmitField('Update')
     

@@ -28,6 +28,40 @@
     {% block content %}
        
     {% endblock content %}
+
+    <footer class="footer-area">
+      <div class="container">
+          <p>
+              Copyright &copy;<script>
+                  document.write(new Date().getFullYear());
+              </script> All rights reserved | This template is made with <i class="fa fa-heart-o"
+                  aria-hidden="true"></i> by <a href='' target="_blank">Subscribe</a>
+          </p>
+          {% for message in get_flashed_messages() %}
+                    <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                    </div>
+                    {% endfor %}
+                    <form class="form-inline ml-2" action="{{url_for('main.subscribe')}}" method="POST">
+                        <div class="md-form form-group">
+                            <label class="white-color">Email Address...</label>
+                            <input type="email"  class="form-control " name ="subscriber" required>
+                        </div>
+                        <div class="md-form form-group">
+                            <button class="btn btn-sm btn-outline-info" id="subs">Subscribe</button>
+                        </div>
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          <div class="col-lg-4 col-md-4 footer-social">
+              <a href="#"><i class="fa fa-facebook"></i></a>
+              <a href="#"><i class="fa fa-twitter"></i></a>
+              <a href="#"><i class="fa fa-youtube-play"></i></a>
+              <a href="#"><i class="fa fa-pinterest"></i></a>
+              <a href="#"><i class="fa fa-rss"></i></a>
+          </div>
+      </div>
+      </div>
+  </footer>
     {%block script%}
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
