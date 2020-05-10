@@ -6,6 +6,7 @@ from ..models import User
 from .forms import LoginForm,RegistrationForm
 from flask_login import current_user
 from .. import db,bcrypt
+from ..email import mail_message
 
 @auth.route('/signup', methods=['POST','GET'])
 def signup():

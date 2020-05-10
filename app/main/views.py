@@ -6,11 +6,10 @@ from .forms import UpdateProf,PostForm,Comment
 from flask_login import login_required,current_user
 import secrets
 import os
-
 from app.request import get_quotes
 from PIL import Image
 from flask_login import login_required,login_user, current_user, logout_user
-
+from ..email import mail_message
 
 @main.route('/')
 def index():
@@ -28,6 +27,8 @@ def new_post():
         db.session.add(post)
         db.session.commit()
         flash('Your post has been added ','success')
+        for subscriber in subscribers:
+            mail_message("New Blog Post","email/new_post",subscriber.email,post=post)
         return redirect(url_for('main.index'))
     return render_template('admin/addpost.html',title='New Post',legend='New Post', form=form) 
 
