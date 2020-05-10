@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {%include 'slider.html'%} 
+
     {% for post in posts.items %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ url_for('static', filename='photos/' + post.author.image_file) }}"height='3%' width="5%">

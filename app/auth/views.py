@@ -41,4 +41,4 @@ def login():
 def logout():
     logout_user()
     flash('you are logout','success')
-    return redirect(url_for('login'))    
+    return redirect(url_for('auth.login'))    

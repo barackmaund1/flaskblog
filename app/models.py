@@ -50,7 +50,6 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post %r' % self.title
 
-
     def save_post(self):
         db.session.add(self)
         db.session.commit()
