@@ -6,14 +6,20 @@
     position: relative;
     display: inline-block;
   }
-  
-  .dropdown-content {
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+  }
+.row2{
+    background-image: url('https://bit.ly/2WnL5UF');
+    width: 150%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   
   .dropdown-content a {
