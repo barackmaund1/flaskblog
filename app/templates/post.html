@@ -13,7 +13,7 @@
                 <small class="text-muted">{{ post.date_pub.strftime('%Y-%m-%d') }}</small>
                 {% if post.author == current_user %}
                 <div>
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('main.add_comment', post_id=post.id) }}">Add comment</a>  
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('main.add_comment', post_id=post.id) }}"> Add comment</a>  
                     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('main.update_post', post_id=post.id) }}">Update</a>
                     <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
                 </div>
@@ -57,4 +57,40 @@
                 </div>
                 </div>
             </div>
+
+            <footer class="footer-area">
+                <div class=" footer">
+                   <div class="row">
+                       <div class="col-md-4">
+              
+                        <form class="form-inline ml-2" action="{{url_for('main.subscribe')}}" method="POST">
+                            <div class="md-form form-group">
+                                <label class="white-color">Email Address...</label>
+                                <input type="email"  class="form-control " name ="subscriber" required>
+                            </div>
+                            <div class="md-form form-group">
+                                <button class="btn btn-sm btn-outline-info" id="subs">Subscribe</button>
+                            </div>
+                       </div>
+                       <div class="col-md-4">
+                        <p>
+                            Copyright &copy;<script>
+                                document.write(new Date().getFullYear());
+                            </script> All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                aria-hidden="true"></i> by <a href='https://github.com/barackmaund1' target="_blank">barackmaundu</a>
+                        </p>
+                       </div>
+                       <div class="col-md-4">
+                        <div class="col-lg-4 col-md-4 footer-social">
+                            <a href="#"><i class="fas fa-facebook"></i></a>
+                            <a href="#"><i class="fas fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-youtube-play"></i></a>
+                            <a href="#"><i class="fas fa-pinterest"></i></a>
+                            <a href="#"><i class="fas fa-rss"></i></a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            
+            </footer>
 {% endblock content %}

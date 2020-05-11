@@ -10,17 +10,22 @@ from app.request import get_quotes
 from PIL import Image
 from flask_login import login_required,login_user, current_user, logout_user
 from ..email import mail_message
+from sqlalchemy.exc import IntegrityError
+import traceback
+
+
 
 @main.route('/')
 def index():
     quote=get_quotes()
     page = request.args.get('page',1, type = int )
-    posts = Post.query.order_by(Post.date_pub.desc()).paginate(page=page, per_page=4)
+    posts = Post.query.order_by(Post.date_pub.desc()).paginate(page=page, per_page=2)
     return render_template('index.html', posts=posts, quotes=quote)
 
 @main.route('/post/new',methods=['POST','GET'])
 @login_required
 def new_post():
+    subscribers = Subscriber.query.all()
     form = PostForm()
     if form.validate_on_submit():
         post = Post(title=form.title.data, content=form.content.data,author=current_user)
@@ -122,11 +127,11 @@ def delete_comment(comment_id):
     db.session.commit()
     flash('Your comment has been deleted!', 'success')
     return redirect(url_for('main.index'))      
-@main.route('/subscribe/user_id',methods = ['POST','GET'])
+@main.route('/subscribe/',methods = ['POST','GET'])
 @login_required
-def subscribe(user_id):
+def subscribe():
     email = request.form.get('subscriber')
-    new_subscriber = Subscriber(email = email,user_id=user_id)
+    new_subscriber = Subscriber(email = email)
     new_subscriber.save_subscriber()
     mail_message("Subscribed to Best-Blog","email/welcome_subscriber",new_subscriber.email,new_subscriber=new_subscriber)
     flash('Sucessfuly subscribed')

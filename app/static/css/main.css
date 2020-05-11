@@ -50,10 +50,12 @@
 }
 .quote{
     background-color: rgb(255, 255, 255);
-    margin-top:80%;
+    
     position: absolute;
-    bottom:15% ;
     left:5% ;
+    top:30%;
+    
+    
 }
 /* .media content-section{
     text-align: center;
@@ -70,24 +72,30 @@
 .footer-area{
     margin-bottom:0 ;
     
-    /* max-width:98% ; */
+     /* max-width:98% ; */ 
     color: rgb(247, 243, 242);
     background-color: rgb(82, 95, 82);
-    position: absolute;
-    bottom:0 ;
-    right:0 ;
-    left:0 ;
+    margin-left:0 ;
+    margin-right:0 ;
     
 
 }
+
 .body{
-    overflow: hidden;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-repeat: no-repeat;
-  
+    
     background-color: rgb(253, 255, 249);
     width:100% ;
+}
+.row1{
+    
+    background-image: url('https://bit.ly/3bnDYQg');
+    width: 150%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+   
+    
 }
 .article{
     background-color: rgb(226, 222, 228);

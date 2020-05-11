@@ -6,15 +6,16 @@
             <div class="content-section">
                 <div class="media">
                 <img class="rounded-circle account-img" height='30%' width='40%'src="{{ image_file }}">
+                
+                </div>
                 <div class="media-body">
-                    <h2 class="account-heading">{{ current_user.username }}</h2>
-                    <p class="text-secondary">{{ current_user.email }}</p>
+                    <h5 class="account-heading">Username:{{ current_user.username }}</h5>
+                    <p class="text-secondary">Email:{{ current_user.email }}</p>
                     {% if current_user.bio %}
-                    <p> {{current_user.bio}}</p>
+                    <p>Bio: {{current_user.bio}}</p>
                   {%else%}
                     <p> {{current_user.username| capitalize}} has no bio </p>
                   {% endif %}
-                </div>
                 </div>
             </div>
         </div>

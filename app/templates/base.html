@@ -25,19 +25,15 @@
     {% endblock %}
   </head>
   <body  style="background-image: url()" class="body">
-    {% block navbar %}
-    {% include "navbar.html" %}
-   {% endblock %}
+     {% block navbar %}
+       {% include "navbar.html" %}
+     {% endblock %}
  
       {% block content %}
        
       {% endblock%}
-        {%block footer%}
-        {%include 'footer.html'%}
-
-        {%endblock%}
-      
-    {%block script%}
+    
+    
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -58,6 +54,6 @@
     <script src="{{url_for('static', filename='js/jquery-3.4.1.slim.min.js')}}" ></script>
     <script src="{{url_for('static', filename='js/popper.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
-  {%endblock%}
+  
   </body>
 </html>
