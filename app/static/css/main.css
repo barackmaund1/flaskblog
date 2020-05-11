@@ -2,9 +2,6 @@
     background-color: rgb(243, 197, 197);
     
 }
-.container{
-    background-color: rgb(220, 220, 245);
-}
 .dropdown {
     position: relative;
     display: inline-block;
@@ -31,30 +28,32 @@
   .dropdown:hover .dropdown-content {display: block;}
   
   .dropdown:hover .dropbtn {background-color: #3e8e41;}
-/* .footer{
-    position: absolute;
-    bottom:0 ;
-    left:10% ;
-} */
-body{
-    background-color: blueviolet;
-}
+
+
 .home_banner_area{
     background-color: brown;
-    background-color: white;
+    
     opacity: 0.9;
     right: 0;
     text-align: center;
     height: 100%;
-    max-height: 100%;
-    max-width: 100%;
+    height: 100%;
+    width: 100%;
     left: auto;
     color: rgb(34, 29, 29);
     padding: 2rem;
     bottom: 0;
 }
+.article-img{
+    margin:2% ;
+    margin-right:5% ;
+}
 .quote{
-    background-color: brown;
+    background-color: rgb(255, 255, 255);
+    margin-top:80%;
+    position: absolute;
+    bottom:15% ;
+    left:5% ;
 }
 /* .media content-section{
     text-align: center;
@@ -66,4 +65,49 @@ body{
 }
 .page{
     justify-content: center;
+    margin-left:20% ;
+}
+.footer-area{
+    margin-bottom:0 ;
+    
+    /* max-width:98% ; */
+    color: rgb(247, 243, 242);
+    background-color: rgb(82, 95, 82);
+    position: absolute;
+    bottom:0 ;
+    right:0 ;
+    left:0 ;
+    
+
+}
+.body{
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-repeat: no-repeat;
+  
+    background-color: rgb(253, 255, 249);
+    width:100% ;
+}
+.article{
+    background-color: rgb(226, 222, 228);
+    border-right: 1px solid blue;
+    box-shadow: 2px 2px 0 rgb(182, 128, 128);
+    width: 150%;
+    border-radius:1% ;
+    margin-top:10% ;
+    color: rgb(10, 8, 8);
+    transition: all .5s ease-in-out;
+}
+.article:hover{
+    -ms-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1); 
+    background-color: rgb(235, 235, 188);
+}
+.post{
+    display:flex ;
+}
+.post1{
+    margin-left:2% ;
 }

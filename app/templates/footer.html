@@ -1,0 +1,40 @@
+<footer class="footer-area">
+    <div class=" footer">
+       <div class="row">
+           <div class="col-md-4">
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+            </div>
+            {% endfor %}
+            <form class="form-inline ml-2" action="{{url_for('main.subscribe')}}" method="POST">
+                <div class="md-form form-group">
+                    <label class="white-color">Email Address...</label>
+                    <input type="email"  class="form-control " name ="subscriber" required>
+                </div>
+                <div class="md-form form-group">
+                    <button class="btn btn-sm btn-outline-info" id="subs">Subscribe</button>
+                </div>
+           </div>
+           <div class="col-md-4">
+            <p>
+                Copyright &copy;<script>
+                    document.write(new Date().getFullYear());
+                </script> All rights reserved | This template is made with <i class="fa fa-heart-o"
+                    aria-hidden="true"></i> by <a href='' target="_blank">barackmaundu</a>
+            </p>
+           </div>
+           <div class="col-md-4">
+            <div class="col-lg-4 col-md-4 footer-social">
+                <a href="#"><i class="fas fa-facebook"></i></a>
+                <a href="#"><i class="fas fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-youtube-play"></i></a>
+                <a href="#"><i class="fas fa-pinterest"></i></a>
+                <a href="#"><i class="fas fa-rss"></i></a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</footer>

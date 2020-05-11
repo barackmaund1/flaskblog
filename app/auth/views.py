@@ -5,38 +5,41 @@ from flask_login import login_user,logout_user,login_required
 from ..models import User
 from .forms import LoginForm,RegistrationForm
 from flask_login import current_user
-from .. import db,bcrypt
+from .. import db
 from ..email import mail_message
 
 @auth.route('/signup', methods=['POST','GET'])
 def signup():
-    form = RegistrationForm(request.form)
-    if request.method == 'POST' and form.validate():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data,pass_secure=form.password.data)
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email = form.email.data, username = form.username.data,password = form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Thanks for registering, you able to login now','success')
+        mail_message('Welcome to lastest Pitches','email/welcome_user',user.email,user=user)
+        flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('auth.login'))
-    return render_template('admin/register.html', registration_form=form)
-
+        title = "New Account"
+    return render_template('auth/register.html',registration_form = form) 
 
 
 @auth.route('/login', methods=['POST','GET'])
 def login():
     if current_user.is_authenticated:
-        next = request.args.get('next')
-        return redirect(next or url_for('main.index'))
-    form = LoginForm(request.form)
-    if request.method == 'POST' and form.validate():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is not None and user.verify_password(form.password.data):
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('main.index'))
-        else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
-    return render_template('admin/login.html', title='Login', form=form)
+        return redirect(url_for('main.index'))
+    form = RegistrationForm()
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        user = User.query.filter_by(email = login_form.email.data).first()
+        if user is not None and user.verify_password(login_form.password.data):
+            login_user(user,login_form.remember.data)
+            return redirect(request.args.get('next') or url_for('main.index'))
+
+        flash('Invalid username or Password')
+
+    title = "Pitch login"
+    return render_template('admin/login.html',login_form = login_form,title=title)
 @auth.route('/logout')
 @login_required
 def logout():
