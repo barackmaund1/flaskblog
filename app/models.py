@@ -18,6 +18,7 @@ class User(db.Model,UserMixin):
     image_file=db.Column(db.String(20),nullable=False,default='default.jpg')
     pass_secure = db.Column(db.String(200),  nullable=False)
     post=db.relationship('Post',backref='user',lazy='dynamic')
+    comment = db.relationship('Comments', backref='user', lazy='dynamic')
 
     @property
     def password(self):
@@ -39,14 +40,14 @@ class User(db.Model,UserMixin):
 class Post(db.Model):
     __tablename__='posts'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), unique=True, nullable=False)
+    title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     author = db.relationship('User', backref=db.backref('posts',lazy=True, passive_deletes=True))
     views = db.Column(db.Integer,default=0)
     comments = db.Column(db.Integer,default=0)
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
+    comment = db.relationship('Comments', backref='blog', lazy='dynamic')
     def __repr__(self):
         return '<Post %r' % self.title
 
@@ -69,8 +70,7 @@ class Comments(db.Model):
      
     id = db.Column(db.Integer, primary_key=True)
     comment= db.Column(db.Text, nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
-    post = db.relationship('Post', backref=db.backref('posts',lazy=True, passive_deletes=True))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
     user_id= db.Column(db.Integer,db.ForeignKey("users.id"))  
 
