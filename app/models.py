@@ -84,7 +84,7 @@ class Comments(db.Model):
 
     # @classmethod
     def get_comment(self,id):
-        comment = Comment.query.all(id=id)
+        comment = Comments.query.all(id=id)
         return comment
 
     def __repr__(self):
