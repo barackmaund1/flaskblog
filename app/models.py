@@ -17,8 +17,8 @@ class User(db.Model,UserMixin):
     bio = db.Column(db.String(255))
     image_file=db.Column(db.String(20),nullable=False,default='default.jpg')
     pass_secure = db.Column(db.String(200),  nullable=False)
-    post=db.relationship('Post',backref='user',lazy='dynamic')
-    comment = db.relationship('Comments', backref='user', lazy='dynamic')
+    post=db.relationship('Post',backref='users',lazy='dynamic')
+    comment = db.relationship('Comments', backref='users', lazy='dynamic')
 
     @property
     def password(self):
@@ -43,11 +43,11 @@ class Post(db.Model):
     title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    author = db.relationship('User', backref=db.backref('posts',lazy=True, passive_deletes=True))
+    author = db.relationship('User', backref=db.backref('posts',lazy=True))
     views = db.Column(db.Integer,default=0)
     comments = db.Column(db.Integer,default=0)
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    comment = db.relationship('Comments', backref='blog', lazy='dynamic')
+    comment = db.relationship('Comments', backref='posts', lazy='dynamic')
     def __repr__(self):
         return '<Post %r' % self.title
 
