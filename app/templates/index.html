@@ -31,7 +31,7 @@
               </div>
             </article>
               <div class="post">
-                  <p class="post1"><a href="{{ url_for('main.post', post_id=post.id) }}"><i class="fas fa-watch" aria-hidden="true"></i>{{post.views }}views</a></p>
+                  <p class="post1"><a href="{{ url_for('main.post', post_id=post.id) }}"><i class="fas fa-watch" aria-hidden="true"></i>{{post.views }}view the blog</a></p>
                   <p class="post1"><a href="{{url_for('main.add_comment',post_id=post.id)}}"><i class="fas fa-comments" aria-hidden="true"></i>{{post.comment.count()}} Comments</a></p>
                   <p class="post1"> <a class="mr-2" href="{{ url_for('main.update_post',post_id=post.id, username=post.author.username) }}">update..</a></p>
                   <div class="article-metadata">

@@ -2,7 +2,7 @@ from . import db,login_manager
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash,check_password_hash
-from sqlalchemy import event
+
 
 
 @login_manager.user_loader
@@ -17,8 +17,8 @@ class User(db.Model,UserMixin):
     bio = db.Column(db.String(255))
     image_file=db.Column(db.String(20),nullable=False,default='default.jpg')
     pass_secure = db.Column(db.String(200),  nullable=False)
-    post=db.relationship('Post',backref='users',lazy='dynamic')
-    comment = db.relationship('Comments', backref='users', lazy='dynamic')
+    post=db.relationship('Post',backref='user',lazy='dynamic')
+    comment = db.relationship('Comments', backref='user', lazy='dynamic')
 
     @property
     def password(self):
@@ -45,9 +45,8 @@ class Post(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     author = db.relationship('User', backref=db.backref('posts',lazy=True))
     views = db.Column(db.Integer,default=0)
-    comments = db.Column(db.Integer,default=0)
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    comment = db.relationship('Comments', backref='posts', lazy='dynamic')
+    comment = db.relationship('Comments', backref='post', lazy='dynamic')
     def __repr__(self):
         return '<Post %r' % self.title
 
@@ -103,5 +102,3 @@ class Subscriber(db.Model):
     def __repr__(self):
         return f'Subscriber {self.email}'
 
-
- 
