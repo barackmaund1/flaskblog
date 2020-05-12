@@ -18,7 +18,7 @@ class User(db.Model,UserMixin):
     image_file=db.Column(db.String(20),nullable=False,default='default.jpg')
     pass_secure = db.Column(db.String(200),  nullable=False)
     post=db.relationship('Post',backref='user',lazy='dynamic')
-    comment = db.relationship('Comments', backref='user', lazy='dynamic')
+    comment = db.relationship('Comment', backref='user', lazy='dynamic')
 
     @property
     def password(self):
@@ -46,7 +46,7 @@ class Post(db.Model):
     author = db.relationship('User', backref=db.backref('posts',lazy=True))
     views = db.Column(db.Integer,default=0)
     date_pub = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    comment = db.relationship('Comments', backref='post', lazy='dynamic')
+    comment = db.relationship('Comment', backref='post', lazy='dynamic')
     def __repr__(self):
         return '<Post %r' % self.title
 
@@ -64,7 +64,7 @@ class Post(db.Model):
         return post
 
 
-class Comments(db.Model):
+class Comment(db.Model):
     __tablename__='comments'
      
     id = db.Column(db.Integer, primary_key=True)
@@ -83,7 +83,7 @@ class Comments(db.Model):
 
     # @classmethod
     def get_comment(self,id):
-        comment = Comments.query.all(id=id)
+        comment = Comment.query.all(id=id)
         return comment
 
     def __repr__(self):

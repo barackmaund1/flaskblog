@@ -16,7 +16,7 @@ class UpdateProf(FlaskForm):
     bio =TextAreaField('Write a brief about yourself',validators =[Required()])
     image_file= FileField('profile picture',validators =[FileAllowed(['jpg','png'])])
     submit = SubmitField('Update')
-class Comment(FlaskForm) :
+class Comments(FlaskForm) :
     comment=StringField('Enter your comment',validators =[Required()])
     submit = SubmitField('Add comment')
 

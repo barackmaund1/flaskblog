@@ -1,8 +1,8 @@
 from flask import render_template,url_for,request,flash,redirect,abort
 from app.main  import main
-from app.models import User,Post,Comments,Subscriber
+from app.models import User,Post,Comment,Subscriber
 from .. import db,photos
-from .forms import UpdateProf,PostForm,Comment
+from .forms import UpdateProf,PostForm,Comments
 from flask_login import login_required,current_user
 import secrets
 import os
@@ -40,7 +40,7 @@ def new_post():
 @main.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    comments = Comments.query.filter_by(post_id=post_id).all()
+    comments = Comment.query.filter_by(post_id=post_id).all()
     return render_template('post.html', title=post.title,comments=comments, post=post)
 @main.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -108,9 +108,9 @@ def profile():
 @main.route('/add_comment/<int:post_id>', methods = ['GET', 'POST'])
 @login_required
 def add_comment(post_id):
-    form = Comment()
+    form = Comments()
     if form.validate_on_submit():
-        comment = Comments(post_id = post_id, comment=form.comment.data,
+        comment = Comment(post_id = post_id, comment=form.comment.data,
                       )
         db.session.add(comment)
         db.session.commit()
@@ -120,7 +120,7 @@ def add_comment(post_id):
 @main.route("/post/<int:comment_id>/delete", methods=['POST'])
 @login_required
 def delete_comment(comment_id):
-    comment = Comments.query.get_or_404(comment_id)
+    comment = Comment.query.get_or_404(comment_id)
     if comment.author != current_user:
         abort(403)
     db.session.delete(comment)
